@@ -33,7 +33,6 @@ void walkDirectory(char *dir, int curDepth, int maxDepth, char * searchString)
 			exit(0);
 		}
 	}
-
 	// Find local directories and search those
 	rewinddir(openDir);
 	while ((entry = readdir(openDir)) != NULL) {
@@ -58,18 +57,19 @@ void walkDirectory(char *dir, int curDepth, int maxDepth, char * searchString)
 	closedir(openDir);
 	return;
 }
-
-
-
 int main(int argc, char ** argv)
 {	
 	char * startDirectory;
-	int maxDepth = 6;
+	int maxDepth = 8;
+	if (argv[3] != NULL){
+		maxDepth = atoi(argv[3]);
+	}
 	int found = 0;
-	if (strncmp(argv[1], "--help", strlen("--help")) == 0){
-		printf("----finds a file----\narg[1]: start directory\narg[2]: the file to find\n");
+	if (strncmp(argv[1], "help", strlen("help")) == 0){
+		printf("----finds a file----\narg[1]: start directory\narg[2]: the file to find\narg[3]: the program will look into (default 8)\n");
 	} else {
 		walkDirectory(argv[1], 1, maxDepth, argv[2]);
+		printf("File not found\n");
 	}
 	return 0;
 }
